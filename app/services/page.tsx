@@ -37,21 +37,25 @@ export default function ServicesPage() {
       title: "Dental Implants Treatment",
       desc: "Premium prosthetic replacements restoring root support, biting stability, and long-lasting bone-level alignment.",
       image: "/images/carousel_1.png",
-      slug: "#",
+      slug: "/services/dental-implants",
     },
     {
       id: "orthodontic-treatments",
-      title: "Orthodontic Treatments (Braces & Aligners)",
+      title: "Orthodontic Treatments",
       desc: "Modern clear alignment chips and braces mapping teeth geometry into perfectly balanced visual arcs.",
       image: "/images/carousel_3.png",
       slug: "#",
+      subLinks: [
+        { name: "Braces Treatment", slug: "/services/braces" },
+        { name: "Invisalign", slug: "/services/invisalign" },
+      ],
     },
     {
       id: "pediatric-dentistry",
       title: "Pediatric Dentistry",
       desc: "Gentle, fear-free treatments and preventive sealant applications designed specifically for younger patients.",
       image: "/images/carousel_4.png",
-      slug: "#",
+      slug: "/services/pediatric-dentistry",
     },
   ];
 
@@ -72,46 +76,62 @@ export default function ServicesPage() {
       {/* Services Grid Section */}
       <section ref={ref} className="py-20 px-6 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mainServices.map((service, i) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="bg-white rounded-[24px] overflow-hidden border border-border-neutral shadow-sm hover:shadow-lg hover:border-[#62826B]/30 hover:bg-[#62826B]/5 transition-all duration-300 flex flex-col justify-between group"
-            >
-              {/* Entire card links to the service detailed page */}
-              <Link href={service.slug} className="flex flex-col flex-grow">
-                {/* Visual frame with zoom animation */}
-                <div className="relative h-[220px] w-full overflow-hidden bg-card-bg">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+          {mainServices.map((service, i) => {
+            const hasSubLinks = 'subLinks' in service && service.subLinks;
+
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-white rounded-[24px] overflow-hidden border border-border-neutral shadow-sm hover:shadow-lg hover:border-[#62826B]/30 hover:bg-[#62826B]/5 transition-all duration-300 flex flex-col justify-between group"
+              >
+                <div className="flex flex-col flex-grow">
+                  {/* Visual frame with zoom animation */}
+                  <div className="relative h-[220px] w-full overflow-hidden bg-card-bg">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  {/* Description info */}
+                  <div className="p-6 space-y-3 flex-grow">
+                    <h3 className="font-caudex font-bold text-xl text-primary group-hover:text-[#62826B] transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="font-instrument text-sm text-text-dark leading-relaxed">
+                      {service.desc}
+                    </p>
+                  </div>
                 </div>
-                {/* Description info */}
-                <div className="p-6 space-y-3 flex-grow">
-                  <h3 className="font-caudex font-bold text-xl text-primary group-hover:text-[#62826B] transition-colors">
-                    {service.title}
-                  </h3>
-                  <p className="font-instrument text-sm text-text-dark leading-relaxed">
-                    {service.desc}
-                  </p>
+                <div className="p-6 pt-0 flex flex-wrap gap-4">
+                  {hasSubLinks ? (
+                    service.subLinks.map((subLink) => (
+                      <Link
+                        key={subLink.name}
+                        href={subLink.slug}
+                        className="inline-flex items-center gap-1.5 font-instrument font-bold text-sm text-[#62826B] hover:text-primary transition-colors group/link"
+                      >
+                        {subLink.name}
+                        <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
+                      </Link>
+                    ))
+                  ) : (
+                    <Link
+                      href={service.slug}
+                      className="inline-flex items-center gap-1.5 font-instrument font-bold text-sm text-[#62826B] hover:text-primary transition-colors group/link"
+                    >
+                      View Details
+                      <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
+                    </Link>
+                  )}
                 </div>
-              </Link>
-              <div className="p-6 pt-0">
-                <Link
-                  href={service.slug}
-                  className="inline-flex items-center gap-1.5 font-instrument font-bold text-sm text-[#62826B] hover:text-primary transition-colors group/link"
-                >
-                  View Details
-                  <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
-                </Link>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       </section>
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Menu, X } from "lucide-react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +28,7 @@ export default function Navbar() {
 
   // Close menus on page change
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
     setIsServicesOpen(false);
     setIsTechOpen(false);
@@ -37,12 +38,19 @@ export default function Navbar() {
     { name: "General Dental Services", href: "/services/general-dentistry" },
     { name: "Restorative Dentistry", href: "#" },
     { name: "Cosmetic Dentistry", href: "/services/cosmetic-dentistry" },
-    { name: "Orthodontic Treatments (Braces & Aligners)", href: "#" },
+    {
+      name: "Orthodontic Treatments",
+      href: "#",
+      subItems: [
+        { name: "Braces Treatment", href: "/services/braces" },
+        { name: "Invisalign", href: "/services/invisalign" },
+      ],
+    },
     { name: "Dental Lasers Treatment", href: "#" },
-    { name: "Dental Implants Treatment", href: "#" },
+    { name: "Dental Implants Treatment", href: "/services/dental-implants" },
     { name: "Full Mouth Rehabilitation", href: "#" },
     { name: "Denture Treatment", href: "#" },
-    { name: "Pediatric Dentistry", href: "#" },
+    { name: "Pediatric Dentistry", href: "/services/pediatric-dentistry" },
   ];
 
   const techDropdown = [
@@ -115,15 +123,40 @@ export default function Navbar() {
                         transition={{ duration: 0.15 }}
                         className="absolute left-0 mt-1 w-64 bg-white rounded-xl shadow-xl py-2 border border-border-neutral"
                       >
-                        {link.dropdown.map((subItem) => (
-                          <Link
-                            key={subItem.name}
-                            href={subItem.href}
-                            className="block px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors"
-                          >
-                            {subItem.name}
-                          </Link>
-                        ))}
+                        {link.dropdown.map((subItem) => {
+                          if (subItem.subItems) {
+                            return (
+                              <div
+                                key={subItem.name}
+                                className="relative group/sub px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors flex items-center justify-between cursor-pointer"
+                              >
+                                <span>{subItem.name}</span>
+                                <ChevronRight className="w-3.5 h-3.5 text-text-muted" />
+                                <div className="absolute left-full top-0 ml-1 hidden group-hover/sub:block w-56 bg-white rounded-xl shadow-xl py-2 border border-border-neutral">
+                                  {subItem.subItems.map((child) => (
+                                    <Link
+                                      key={child.name}
+                                      href={child.href}
+                                      className="block px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors"
+                                    >
+                                      {child.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            );
+                          }
+
+                          return (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              className="block px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors"
+                            >
+                              {subItem.name}
+                            </Link>
+                          );
+                        })}
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -197,15 +230,38 @@ export default function Navbar() {
                       </button>
                       {isDropOpen && (
                         <div className="pl-4 flex flex-col space-y-2 border-l border-white/20">
-                          {link.dropdown.map((subItem) => (
-                            <Link
-                              key={subItem.name}
-                              href={subItem.href}
-                              className="text-sm font-instrument text-cream/80 hover:text-white py-1"
-                            >
-                              {subItem.name}
-                            </Link>
-                          ))}
+                           {link.dropdown.map((subItem) => {
+                             if (subItem.subItems) {
+                               return (
+                                 <div key={subItem.name} className="flex flex-col space-y-1 w-full text-left">
+                                   <span className="text-xs font-montserrat font-bold text-white/50 px-1 py-1 uppercase tracking-wider text-left">
+                                     {subItem.name}
+                                   </span>
+                                   <div className="pl-3 flex flex-col space-y-1 border-l border-white/10">
+                                     {subItem.subItems.map((child) => (
+                                       <Link
+                                         key={child.name}
+                                         href={child.href}
+                                         className="text-sm font-instrument text-cream/80 hover:text-white py-1 block text-left"
+                                       >
+                                         {child.name}
+                                       </Link>
+                                     ))}
+                                   </div>
+                                 </div>
+                               );
+                             }
+
+                             return (
+                               <Link
+                                 key={subItem.name}
+                                 href={subItem.href}
+                                 className="text-sm font-instrument text-cream/80 hover:text-white py-1 block text-left"
+                               >
+                                 {subItem.name}
+                               </Link>
+                             );
+                           })}
                         </div>
                       )}
                     </div>

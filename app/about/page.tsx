@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import SmallBookingCTA from "@/components/sections/SmallBookingCTA";
-import { team } from "@/lib/data/siteData";
 
 export default function AboutPage() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const chooseUsItems = [
     {
@@ -117,37 +115,170 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 4. Team Section */}
-      <section ref={ref} id="achievements" className="py-20 bg-[#FFF8EE]/50">
-        <div className="max-w-7xl mx-auto px-6">
-          {/* Doctors Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-center">
-            {team.filter(member => member.id !== "dr-priti").map((member, i) => (
-              <motion.div
-                key={member.id}
-                initial={{ opacity: 0, y: 25 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-white rounded-[20px] border border-border-neutral overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between"
-              >
-                <div className="relative h-[280px] w-full bg-cream-light/35">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
+      {/* 4. Pricing Plans Section */}
+      <section className="relative py-24 overflow-hidden bg-cream-light">
+        {/* Background Image with Light Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/7026.jpg"
+            alt="Dental Pricing Plans Background"
+            fill
+            className="object-cover object-center opacity-85"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-cream-light/30 via-cream-light/45 to-cream-light/30" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center">
+          {/* Tag/Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-white/65 backdrop-blur-md text-[10px] md:text-xs font-bold tracking-widest text-primary uppercase mb-4 shadow-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-green" />
+            Price Packages
+          </div>
+
+          {/* Heading */}
+          <h2 className="font-caudex font-bold text-3xl md:text-4xl lg:text-5xl text-primary text-center mb-16 tracking-wide uppercase">
+            Pricing Plans
+          </h2>
+
+          {/* Pricing Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl items-stretch">
+            {/* Card 1: Essential Care */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-border-neutral/20 relative hover:-translate-y-2 transition-transform duration-300"
+            >
+              <div>
+                <h3 className="font-caudex font-bold text-2xl text-primary mb-2">
+                  Essential Care
+                </h3>
+                <div className="flex items-baseline gap-1 mb-4">
+                  <span className="text-xl font-bold text-primary">₹2,999</span>
+                  <span className="text-xs text-text-dark/70 font-medium">/ year</span>
                 </div>
-                <div className="p-5 text-center bg-white">
-                  <h3 className="font-caudex font-bold text-base text-primary mb-1">
-                    {member.name}
-                  </h3>
-                  <p className="font-instrument text-xs text-text-muted font-medium">
-                    {member.role}
-                  </p>
+                <div className="w-full h-[1px] bg-border-neutral/60 mb-6" />
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Comprehensive Dental Checkups
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Professional Teeth Cleaning
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Digital Oral Examination
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Personalized Oral Hygiene Guidance
+                  </li>
+                </ul>
+              </div>
+              <Link href="/contact" className="w-full py-3 rounded-xl border border-primary text-primary bg-white font-bold text-sm hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer text-center block">
+                Enroll Now
+              </Link>
+            </motion.div>
+
+            {/* Card 2: Smile Care Plus */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-accent-green rounded-3xl p-8 flex flex-col justify-between shadow-2xl relative hover:-translate-y-2 transition-transform duration-300 overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full translate-x-8 -translate-y-8" />
+              
+              <div>
+                <h3 className="font-caudex font-bold text-2xl text-white mb-2">
+                  Smile Care Plus
+                </h3>
+                <div className="flex items-baseline gap-1 mb-4">
+                  <span className="text-xl font-bold text-white">₹5,999</span>
+                  <span className="text-xs text-white/80 font-medium">/ year</span>
                 </div>
-              </motion.div>
-            ))}
+                <div className="w-full h-[1px] bg-white/20 mb-6" />
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-white font-medium leading-relaxed">
+                    <span className="text-white mt-0.5">•</span>
+                    Everything in Essential Care
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-white font-medium leading-relaxed">
+                    <span className="text-white mt-0.5">•</span>
+                    Digital X-rays (as required)
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-white font-medium leading-relaxed">
+                    <span className="text-white mt-0.5">•</span>
+                    Fluoride Treatment
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-white font-medium leading-relaxed">
+                    <span className="text-white mt-0.5">•</span>
+                    Priority Appointment Scheduling
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-white font-medium leading-relaxed">
+                    <span className="text-white mt-0.5">•</span>
+                    Exclusive Discounts on Treatments
+                  </li>
+                </ul>
+              </div>
+              <Link href="/contact" className="w-full py-3 rounded-xl bg-white text-accent-green border border-white font-bold text-sm hover:bg-white/95 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center shadow-md block">
+                Enroll Now
+              </Link>
+            </motion.div>
+
+            {/* Card 3: Platinum Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-white rounded-3xl p-8 flex flex-col justify-between shadow-xl border border-white/10 relative hover:-translate-y-2 transition-transform duration-300"
+            >
+              <div>
+                <h3 className="font-caudex font-bold text-2xl text-primary mb-2">
+                  Platinum Plan
+                </h3>
+                <div className="flex items-baseline gap-1 mb-4">
+                  <span className="text-xl font-bold text-primary">₹9,999</span>
+                  <span className="text-xs text-text-dark/70 font-medium">/ year</span>
+                </div>
+                <div className="w-full h-[1px] bg-border-neutral/60 mb-6" />
+                <ul className="space-y-4 mb-8">
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Unlimited Routine Consultations
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Professional Cleanings
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Preventive Dental Screenings
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Cosmetic Dentistry Discounts
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Priority Support
+                  </li>
+                  <li className="flex items-start gap-3 text-xs md:text-sm text-text-dark font-medium leading-relaxed">
+                    <span className="text-primary mt-0.5">•</span>
+                    Personalized Annual Smile Assessment
+                  </li>
+                </ul>
+              </div>
+              <Link href="/contact" className="w-full py-3 rounded-xl border border-primary text-primary bg-white font-bold text-sm hover:bg-primary hover:text-white transition-all duration-300 cursor-pointer text-center block">
+                Enroll Now
+              </Link>
+            </motion.div>
           </div>
         </div>
       </section>
