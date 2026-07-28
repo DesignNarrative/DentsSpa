@@ -124,16 +124,17 @@ export default function Navbar() {
                         className="absolute left-0 mt-1 w-64 bg-white rounded-xl shadow-xl py-2 border border-border-neutral"
                       >
                         {link.dropdown.map((subItem) => {
-                          if (subItem.subItems) {
+                          const item = subItem as { name: string; href: string; subItems?: { name: string; href: string }[] };
+                          if (item.subItems) {
                             return (
                               <div
-                                key={subItem.name}
+                                key={item.name}
                                 className="relative group/sub px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors flex items-center justify-between cursor-pointer"
                               >
-                                <span>{subItem.name}</span>
+                                <span>{item.name}</span>
                                 <ChevronRight className="w-3.5 h-3.5 text-text-muted" />
                                 <div className="absolute left-full top-0 ml-1 hidden group-hover/sub:block w-56 bg-white rounded-xl shadow-xl py-2 border border-border-neutral">
-                                  {subItem.subItems.map((child) => (
+                                  {item.subItems.map((child) => (
                                     <Link
                                       key={child.name}
                                       href={child.href}
@@ -149,11 +150,11 @@ export default function Navbar() {
 
                           return (
                             <Link
-                              key={subItem.name}
-                              href={subItem.href}
+                              key={item.name}
+                              href={item.href}
                               className="block px-4 py-2 text-sm font-instrument text-text-dark hover:bg-cream-light hover:text-primary transition-colors"
                             >
-                              {subItem.name}
+                              {item.name}
                             </Link>
                           );
                         })}
@@ -231,14 +232,15 @@ export default function Navbar() {
                       {isDropOpen && (
                         <div className="pl-4 flex flex-col space-y-2 border-l border-white/20">
                            {link.dropdown.map((subItem) => {
-                             if (subItem.subItems) {
+                             const item = subItem as { name: string; href: string; subItems?: { name: string; href: string }[] };
+                             if (item.subItems) {
                                return (
-                                 <div key={subItem.name} className="flex flex-col space-y-1 w-full text-left">
+                                 <div key={item.name} className="flex flex-col space-y-1 w-full text-left">
                                    <span className="text-xs font-montserrat font-bold text-white/50 px-1 py-1 uppercase tracking-wider text-left">
-                                     {subItem.name}
+                                     {item.name}
                                    </span>
                                    <div className="pl-3 flex flex-col space-y-1 border-l border-white/10">
-                                     {subItem.subItems.map((child) => (
+                                     {item.subItems.map((child) => (
                                        <Link
                                          key={child.name}
                                          href={child.href}
@@ -254,11 +256,11 @@ export default function Navbar() {
 
                              return (
                                <Link
-                                 key={subItem.name}
-                                 href={subItem.href}
+                                 key={item.name}
+                                 href={item.href}
                                  className="text-sm font-instrument text-cream/80 hover:text-white py-1 block text-left"
                                >
-                                 {subItem.name}
+                                 {item.name}
                                </Link>
                              );
                            })}
